@@ -1,0 +1,16 @@
+# Data and outputs are not tracked
+data/*
+!data/.gitkeep
+output/*
+!output/.gitkeep
+
+# R
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.Renviron
+
+# OS
+.DS_Store
+Thumbs.db

@@ -19,7 +19,7 @@ require(RColorBrewer)
 
 # load file
 
-file.path <- "C:/Users/mocta/Desktop/Urgency assignment/Case_Study_Urgency_Message_Data.xlsx"
+file.path <- here::here("data", "Case_Study_Urgency_Message_Data.xlsx")
 df <- excel_sheets(file.path) %>% 
   map_df(~read_xlsx(file.path, .))
 
@@ -58,7 +58,7 @@ df <- df[-(which(df$book_2_checkin > 0)),] # 3 cases removed
 df <- df[,-c(4, 6, 11)]
 df <- df[,c(1, 2, 10, 9, 3, 4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 16)]
 
-#write.csv(df, file = "C:/Users/mocta/Desktop/Urgency assignment/cleaned_data.csv")
+#write.csv(df, file = here::here("output", "cleaned_data.csv"))
 
 ## 1: Overview
 
@@ -457,7 +457,7 @@ df_prop <- df %>%
   mutate(ADR_USD = scale(ADR_USD),
          book_2_checkin = scale(book_2_checkin)) # 880 unique properties in total in dataset. We choose those properties with at least 10 bookings: total 455 properties.
 
-write.csv(df_prop, "C:/Users/mocta/Desktop/Urgency assignment/df_prop.csv")
+write.csv(df_prop, here::here("output", "df_prop.csv"))
 
 property_mixed <- lmer(ADR_USD ~ book_2_checkin + (book_2_checkin|hotel_id) + city + star_rating + type + month_booked + dayweek_checkin + dayweek_booked + stay_days, data = df_prop, REML = F)
 
@@ -610,8 +610,8 @@ df_test %>%
   group_by(book_2_checkin, type) %>% 
   summarise()
 
-write.csv(df_test, file = "C:/Users/mocta/Desktop/perc.csv")
-perc <- read.csv("C:/Users/mocta/Desktop/perc.csv")
+write.csv(df_test, file = here::here("output", "perc.csv"))
+perc <- read.csv(here::here("output", "perc.csv"))
 
 
 perc$X <- perc$X *100
@@ -673,8 +673,8 @@ ggplot(df, aes(x = checkin_date, fill = df$month_booked))+
 
 
 
-write.csv(fin, file = "C:/Users/mocta/Desktop/fin.csv")
-fin <- read.csv("C:/Users/mocta/Desktop/fin.csv")
+write.csv(fin, file = here::here("output", "fin.csv"))
+fin <- read.csv(here::here("output", "fin.csv"))
 
 
 ### do weekend trippers book late or not?
@@ -726,12 +726,12 @@ summary(lm(ADR_USD ~ business + city, data = df_business))
 blank <- df[, c(1, 3, 5, 16)]
 
 
-write.csv(df, file = "C:/Users/mocta/Desktop/Urgency assignment/df.csv")
-write.csv(framework.2, file = "C:/Users/mocta/Desktop/Urgency assignment/framework2.csv")
+write.csv(df, file = here::here("output", "df.csv"))
+write.csv(framework.2, file = here::here("output", "framework2.csv"))
 
 
 
-df_framework <- read.csv("C:/Users/mocta/Desktop/Urgency assignment/df.csv")
+df_framework <- read.csv(here::here("output", "df.csv"))
 df_framework$f1 <- as.numeric(df_framework$framework.1)
 df_framework$f2 <- as.numeric(df_framework$framework.2)
 
@@ -790,7 +790,7 @@ plot3d(
   zlab = "Variability"
 )
 
-writeWebGL( filename="C:/Users/mocta/Desktop/Urgency assignment/framework.html" ,  width=600, height=600)
+writeWebGL( filename=here::here("output", "framework.html") ,  width=600, height=600)
 
 
 
